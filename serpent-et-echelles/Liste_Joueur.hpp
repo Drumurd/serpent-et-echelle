@@ -6,16 +6,16 @@
 
 class Liste_Joueur {
 private:
-	Joueur* m_premier;
+  Joueur *m_premier;
 
 public:
-	Liste_Joueur();
-	~Liste_Joueur();
+  Liste_Joueur();
+  ~Liste_Joueur();
 
-	void afficher(sf::RenderWindow* window);
+  void afficher(sf::RenderWindow *window);
 
-	void ajouter(Joueur* joueur);
-	void liberer();
+  void ajouter(Joueur *joueur);
+  void liberer();
 
-	Joueur* getPremierJoueur();
+  Joueur *getPremierJoueur();
 };

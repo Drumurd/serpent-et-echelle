@@ -3,13 +3,13 @@
 
 class Chemin {
 private:
-	unsigned int m_caseHaut;
-	unsigned int m_caseBas;
-	sf::Sprite m_sprite;
+  unsigned int m_caseHaut;
+  unsigned int m_caseBas;
+  sf::Sprite m_sprite;
 
-	Chemin* m_suivant;
+  Chemin *m_suivant;
 
 public:
-	Chemin();
-	~Chemin();
+  Chemin();
+  ~Chemin();
 };

@@ -1,26 +1,31 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
 #include <string>
 
 #include "Couleur.hpp"
 
-
 class Joueur {
 private:
-	unsigned int m_caseActuelle;
-	Couleur m_couleur;
-	std::string m_nom;
+  unsigned int m_caseActuelle;
+  Couleur m_couleur;
+  std::string m_nom;
 
-	Joueur* m_suivant;
+  sf::Sprite m_sprite;
+  sf::Vector2f m_offset;
+
+  Joueur *m_suivant;
 
 public:
-	Joueur();
-	Joueur(const Couleur& couleur, const std::string& nom);
-	~Joueur();
+  Joueur();
+  Joueur(const Couleur &couleur, const std::string &nom);
+  ~Joueur();
 
-	void determinerSuivant(Joueur* suivant);
+  void determinerSuivant(Joueur *suivant);
 
-	Joueur* obtenirSuivant() const;
+  Joueur *obtenirSuivant() const;
 
-	Couleur obtenirCouleur() const;
+  Couleur obtenirCouleur() const;
+
+  sf::Sprite obtenirSprite() const;
 };
