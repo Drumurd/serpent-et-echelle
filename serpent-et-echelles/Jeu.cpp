@@ -34,9 +34,12 @@ Jeu::Jeu()
       m_joueurCourant(nullptr) {}
 
 Jeu::~Jeu() {
+  delete m_window;
+
   delete m_textureCase;
   delete m_textureCaseSpeciale;
-  delete m_window;
+
+  delete m_textFont;
 }
 
 void Jeu::afficherCases() {
@@ -55,8 +58,8 @@ void Jeu::entrerInfoJoueurs() {
   while (!valide) {
     std::cout << "Combien de joueurs ? ";
 
-    if (!(std::cin >>
-          m_nbJoueurs)) { // si l'utilisateur entre autre chose qu'un chiffre
+    // si l'utilisateur entre autre chose qu'un chiffre
+    if (!(std::cin >> m_nbJoueurs)) {
       std::cin.clear();
       std::cin.ignore(10000, '\n');
     }
@@ -69,13 +72,14 @@ void Jeu::entrerInfoJoueurs() {
 
   for (unsigned int i = 0; i < m_nbJoueurs; i++) {
     std::string nom("");
+    Couleur couleur(intACouleur(i));
 
     std::cout << std::endl << "Quel est le nom du joueur " << i + 1 << "? ";
     std::cin >> nom;
     // std::cin.clear();
     // std::cin.ignore(10000, '\n');
 
-    Joueur *joueur = new Joueur(intACouleur(i), nom);
+    Joueur *joueur = new Joueur(couleur, nom);
     m_joueurs.ajouter(joueur);
 
     std::cout << nom << " aura la couleur " << joueur->obtenirCouleur()
@@ -96,20 +100,40 @@ void Jeu::initialiserJeu() {
 }
 
 void Jeu::chargerPlancheDeJeu() {
+  chargerCases();
+  chargerTexteCases();
+}
+
+void Jeu::chargerTexturesCases() {
   m_textureCase = new sf::Texture();
   m_textureCaseSpeciale = new sf::Texture();
 
-  if (!m_textureCase->loadFromFile("assets\\textures\\case.jpg")) {
-    throw std::exception("Impossible de charger la texture \"case.jpg\"");
-  }
-  if (!m_textureCaseSpeciale->loadFromFile(
-          "assets\\textures\\caseSpeciale.jpg")) {
-    throw std::exception(
-        "Impossible de charger la texture \"caseSpeciale.jpg\"");
+  std::string pathTexture;
+  std::string pathTextureSpeciale;
+
+#ifdef _WIN32
+  pathTexture = "assets\\textures\\case.jpg";
+  pathTextureSpeciale = "assets\\textures\\case-speciale.jpg";
+#else
+  pathTexture = "assets/textures/case.jpg";
+  pathTextureSpeciale = "assets/textures/case-speciale.jpg";
+#endif // _WIN32
+
+  if (!m_textureCase->loadFromFile(pathTexture)) {
+    std::string erreur =
+        "Impossible de charger la texture \"" + pathTexture + "\"";
+    throw std::exception(erreur.c_str());
   }
 
-  unsigned noCase = 99;
+  if (!m_textureCaseSpeciale->loadFromFile(pathTextureSpeciale)) {
+    std::string erreur =
+        "Impossible de charger la texture \"" + pathTextureSpeciale + "\"";
+    throw std::exception(erreur.c_str());
+  }
+}
 
+void Jeu::chargerCases() {
+  chargerTexturesCases();
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
 
@@ -121,15 +145,35 @@ void Jeu::chargerPlancheDeJeu() {
       m_plancheDeJeu[i][j].m_sprite = sf::Sprite(*m_textureCase);
       m_plancheDeJeu[i][j].m_sprite.setPosition(positionTexture);
       m_plancheDeJeu[i][j].m_position = positionTexture;
+    }
+  }
+  m_plancheDeJeu[9][0].m_sprite.setTexture(*m_textureCaseSpeciale);
+  m_plancheDeJeu[0][0].m_sprite.setTexture(*m_textureCaseSpeciale);
+}
 
-      m_textFont = new sf::Font;
-      if (!m_textFont->loadFromFile(
-              "assets\\fonts\\pixelated\\pixelated.ttf")) {
-        throw std::exception(
-            "Impossible de charger la police \"pixelated.ttf\"");
-      }
+void Jeu::chargerTexteCases() {
+  m_textFont = new sf::Font;
+  std::string path;
 
-      x += 7.0f; // ajuster la position du texte
+#ifdef _WIN32
+  path = "assets\\fonts\\pixelated\\pixelated.ttf";
+#else
+  path = "assets/fonts/pixelated/pixelated.ttf";
+#endif // _WIN32
+
+  if (!m_textFont->loadFromFile(path)) {
+    std::string erreur = "Impossible de charger la police \"" + path + "\"";
+    throw std::exception(erreur.c_str());
+  }
+
+  unsigned noCase = 99;
+
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+      float x, y;
+      x = j * LARGEUR_CASE + 7.0f;
+      y = i * HAUTEUR_CASE;
+
       sf::Vector2f positionTexte(x, y);
 
       m_plancheDeJeu[i][j].m_text.setFont(*m_textFont);
@@ -148,9 +192,6 @@ void Jeu::chargerPlancheDeJeu() {
   }
   m_plancheDeJeu[9][0].m_text.setString("Depart");
   m_plancheDeJeu[0][0].m_text.setString("Fin");
-
-  m_plancheDeJeu[9][0].m_sprite.setTexture(*m_textureCaseSpeciale);
-  m_plancheDeJeu[0][0].m_sprite.setTexture(*m_textureCaseSpeciale);
 }
 
 void Jeu::bouclePrincipale() {

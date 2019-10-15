@@ -9,6 +9,21 @@ Joueur::Joueur(const Couleur &couleur, const std::string &nom)
 
 Joueur::~Joueur() {}
 
+void Joueur::chargerSprite() {
+  std::string path;
+
+#ifdef _WIN32
+  path = "assets\\textures\\joueur-" + couleurAString(m_couleur) + ".jpg";
+#else
+  path = "assets/textures/joueur-" + couleurAString(m_couleur) + ".jpg";
+#endif // _WIN32
+
+  if (!m_texture.loadFromFile(path)) {
+    std::string erreur = "Impossible de charger la texture \"" + path + "\"";
+    throw std::exception(erreur.c_str());
+  }
+}
+
 void Joueur::determinerSuivant(Joueur *suivant) { m_suivant = suivant; }
 
 Joueur *Joueur::obtenirSuivant() const { return m_suivant; }

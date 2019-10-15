@@ -38,6 +38,32 @@ sf::Color couleurASfColor(const Couleur &couleur) {
   }
 }
 
+std::string couleurAString(const Couleur &couleur) {
+  switch (couleur) {
+  case Couleur::bleu:
+    return "bleu";
+    break;
+  case Couleur::jaune:
+    return "jaune";
+    break;
+  case Couleur::orange:
+    return "orange";
+    break;
+  case Couleur::rose:
+    return "rose";
+    break;
+  case Couleur::rouge:
+    return "rouge";
+    break;
+  case Couleur::vert:
+    return "vert";
+    break;
+  case Couleur::nd:
+    return "couleur non définie";
+    break;
+  }
+}
+
 std::ostream &operator<<(std::ostream &os, const Couleur &couleur) {
   switch (couleur) {
   case Couleur::bleu:

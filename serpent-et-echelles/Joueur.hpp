@@ -11,10 +11,13 @@ private:
   Couleur m_couleur;
   std::string m_nom;
 
+  sf::Texture m_texture;
   sf::Sprite m_sprite;
   sf::Vector2f m_offset;
 
   Joueur *m_suivant;
+
+  void chargerSprite();
 
 public:
   Joueur();

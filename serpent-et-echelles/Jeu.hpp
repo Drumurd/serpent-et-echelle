@@ -47,6 +47,9 @@ private:
   void entrerInfoJoueurs();
   void initialiserJeu();
   void chargerPlancheDeJeu();
+  void chargerTexturesCases();
+  void chargerCases();
+  void chargerTexteCases();
 
   void bouclePrincipale();
 
