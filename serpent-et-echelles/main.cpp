@@ -2,14 +2,12 @@
 
 int main(int argc, char** argv) {
 
-	Jeu SerpentEtEchelle;
+	Jeu* SerpentEtEchelle = new Jeu();
 
-	try
-	{
-		SerpentEtEchelle.demarrer();
+	try {
+		SerpentEtEchelle->demarrer();
 	}
-	catch (const std::exception & exc)
-	{
+	catch (const std::exception & exc) {
 		std::cerr << exc.what();
 	}
 

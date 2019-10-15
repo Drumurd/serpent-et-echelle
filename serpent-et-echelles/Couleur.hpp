@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 enum class Couleur {
 	bleu = 0,
@@ -13,5 +14,7 @@ enum class Couleur {
 };
 
 Couleur intACouleur(int noCouleur);
+
+sf::Color couleurASfColor(const Couleur& couleur);
 
 std::ostream& operator<<(std::ostream& os, const Couleur& couleur);
