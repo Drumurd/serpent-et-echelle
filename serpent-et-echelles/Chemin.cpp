@@ -9,6 +9,7 @@ Chemin::Chemin(unsigned int caseHaut, unsigned int caseBas, Type type)
     : m_caseBas(caseBas), m_caseHaut(caseHaut), m_type(type),
       m_suivant(nullptr) {
   chargerSprite();
+  placerSurCases();
 }
 
 Chemin::~Chemin() {}
@@ -21,6 +22,46 @@ unsigned int Chemin::obtenirCaseHaut() const { return m_caseHaut; }
 unsigned int Chemin::obtenirCaseBas() const { return m_caseBas; }
 
 void Chemin::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
+
+void Chemin::placerSurCases() {
+  sf::Vector2f positionHaut;
+  sf::Vector2f positionBas;
+
+  sf::Vector2f distanceCases;
+  sf::Vector2f scale;
+
+  m_offsetCaseHaut = sf::Vector2f(40.0f, 40.0f);
+
+  m_offsetCaseBas = sf::Vector2f(40.0f, 40.0f);
+
+  positionHaut.x =
+      (NumeroCaseALigne(m_caseHaut) * LARGEUR_CASE) + m_offsetCaseHaut.x;
+  positionHaut.y =
+      (NumeroCaseAColone(m_caseHaut) * HAUTEUR_CASE) + m_offsetCaseHaut.y;
+
+  positionBas.x =
+      (NumeroCaseALigne(m_caseBas) * LARGEUR_CASE) + m_offsetCaseBas.x;
+  positionBas.y =
+      (NumeroCaseAColone(m_caseBas) * HAUTEUR_CASE) + m_offsetCaseBas.y;
+
+  assert(positionBas.y > positionHaut.y);
+
+  distanceCases = positionBas - positionHaut;
+
+  switch (m_type) {
+  case Chemin::Type::serpent:
+    scale.x = 0.1f;
+    scale.y = distanceCases.y / LONGEUR_SERPENT;
+    break;
+  case Chemin::Type::echelle:
+    scale.x = 0.25f;
+    scale.y = distanceCases.y / LONGEUR_ECHELLE;
+    break;
+  }
+
+  m_sprite.setPosition(positionHaut);
+  m_sprite.setScale(scale);
+}
 
 /////////////////////////////////////////////////////// private
 

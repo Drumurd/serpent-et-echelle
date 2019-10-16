@@ -63,6 +63,9 @@ private:
   void gererInput();
 
   void afficher();
+
   void afficherCases();
+  void afficherNumeroCases();
+
   void afficherMessage();
 };

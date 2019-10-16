@@ -1,7 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include <cassert>
 #include <string>
+
+#include "Case.hpp"
+
+#define LONGEUR_SERPENT 1513.0f
+#define LONGEUR_ECHELLE 418.0f
 
 class Chemin {
 public:
@@ -19,6 +25,7 @@ public:
   unsigned int obtenirCaseBas() const;
 
   void afficher(sf::RenderWindow *window);
+  void placerSurCases();
 
 private:
   unsigned int m_caseHaut;
@@ -26,6 +33,9 @@ private:
 
   sf::Texture m_texture;
   sf::Sprite m_sprite;
+
+  sf::Vector2f m_offsetCaseHaut;
+  sf::Vector2f m_offsetCaseBas;
 
   Type m_type;
 

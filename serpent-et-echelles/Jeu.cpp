@@ -203,7 +203,7 @@ void Jeu::chargerCheminsStatiques() {
   chemin = new Chemin(39u, 0u, Chemin::Type::serpent);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(51u, 48u, Chemin::Type::serpent);
+  chemin = new Chemin(45u, 34u, Chemin::Type::serpent);
   m_chemins.ajouter(chemin);
 }
 
@@ -231,6 +231,8 @@ void Jeu::afficher() {
   afficherCases();
   m_chemins.afficher(m_window);
   m_joueurs.afficher(m_window);
+
+  afficherNumeroCases();
   afficherMessage();
 
   m_window->display();
@@ -240,6 +242,13 @@ void Jeu::afficherCases() {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
       m_window->draw(m_plancheDeJeu[i][j].m_sprite);
+    }
+  }
+}
+
+void Jeu::afficherNumeroCases() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
       m_window->draw(m_plancheDeJeu[i][j].m_text);
     }
   }
