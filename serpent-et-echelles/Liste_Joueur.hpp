@@ -15,6 +15,8 @@ public:
   void ajouter(Joueur *joueur);
   void liberer();
 
+  Joueur *obtenirPremier() const;
+
 private:
   Joueur *m_premier;
 };

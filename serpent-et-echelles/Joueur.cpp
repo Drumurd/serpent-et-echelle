@@ -42,6 +42,8 @@ Couleur Joueur::obtenirCouleur() const { return m_couleur; }
 
 sf::Sprite Joueur::obtenirSprite() const { return m_sprite; }
 
+std::string Joueur::obtenirNom() const { return m_nom; }
+
 void Joueur::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 
 /////////////////////////////////////////////////////// private
@@ -66,22 +68,22 @@ void Joueur::chargerSprite() {
 void Joueur::determinerOffset() {
   switch (m_couleur) {
   case Couleur::bleu:
-    m_offset = sf::Vector2f(8.0f, 28.0f);
+    m_offset = sf::Vector2f(8.0f, 22.0f);
     break;
   case Couleur::jaune:
-    m_offset = sf::Vector2f(32.0f, 28.0f);
+    m_offset = sf::Vector2f(32.0f, 22.0f);
     break;
   case Couleur::orange:
-    m_offset = sf::Vector2f(56.0f, 28.0f);
+    m_offset = sf::Vector2f(56.0f, 22.0f);
     break;
   case Couleur::rose:
-    m_offset = sf::Vector2f(8.0f, 48.0f);
+    m_offset = sf::Vector2f(8.0f, 45.0f);
     break;
   case Couleur::rouge:
-    m_offset = sf::Vector2f(32.0f, 48.0f);
+    m_offset = sf::Vector2f(32.0f, 45.0f);
     break;
   case Couleur::vert:
-    m_offset = sf::Vector2f(56.0f, 48.0f);
+    m_offset = sf::Vector2f(56.0f, 45.0f);
     break;
   default:
     m_offset = sf::Vector2f(0.0f, 0.0f);

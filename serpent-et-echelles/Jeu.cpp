@@ -17,6 +17,7 @@ Jeu::~Jeu() {
 }
 
 void Jeu::demarrer() {
+
   entrerInfoJoueurs();
   initialiserJeu();
   bouclePrincipale();
@@ -25,6 +26,7 @@ void Jeu::demarrer() {
 /////////////////////////////////////////////////////// private
 
 void Jeu::entrerInfoJoueurs() {
+
   m_nbJoueurs = 0;
   bool valide(false);
 
@@ -70,6 +72,10 @@ void Jeu::initialiserJeu() {
   m_window->setVerticalSyncEnabled(true);
 
   chargerPlancheDeJeu();
+  chargerMessages();
+
+  m_joueurCourant = m_joueurs.obtenirPremier();
+  m_etat = Etat::attenteJoueur;
 }
 
 void Jeu::chargerPlancheDeJeu() {
@@ -129,9 +135,9 @@ void Jeu::chargerTexteCases() {
   std::string path;
 
 #ifdef _WIN32
-  path = "assets\\fonts\\pixelated\\pixelated.ttf";
+  path = "assets\\fonts\\press_start_2p\\PressStart2P.ttf";
 #else  // linux, mac, unix, etc...
-  path = "assets/fonts/pixelated/pixelated.ttf";
+  path = "assets/fonts/press_start_2p/PressStart2P.ttf";
 #endif // _WIN32
 
   if (!m_textFont->loadFromFile(path)) {
@@ -145,13 +151,13 @@ void Jeu::chargerTexteCases() {
     for (int j = 0; j < 10; j++) {
       float x, y;
       x = j * LARGEUR_CASE + 7.0f;
-      y = i * HAUTEUR_CASE;
+      y = i * HAUTEUR_CASE + 7.0f;
 
       sf::Vector2f positionTexte(x, y);
 
       m_plancheDeJeu[i][j].m_text.setFont(*m_textFont);
       m_plancheDeJeu[i][j].m_text.setFillColor(sf::Color(255, 255, 255, 255));
-      m_plancheDeJeu[i][j].m_text.setScale(0.7f, 0.7f);
+      m_plancheDeJeu[i][j].m_text.setScale(0.35f, 0.35f);
       m_plancheDeJeu[i][j].m_text.setPosition(positionTexte);
 
       if (i % 2) {
@@ -165,6 +171,16 @@ void Jeu::chargerTexteCases() {
   }
   m_plancheDeJeu[9][0].m_text.setString("Depart");
   m_plancheDeJeu[0][0].m_text.setString("Fin");
+}
+
+void Jeu::chargerMessages() {
+  m_message1.setFont(*m_textFont);
+  m_message1.setPosition(10.0f, 710.0f);
+  m_message1.setScale(0.7f, 0.7f);
+
+  m_message2.setFont(*m_textFont);
+  m_message2.setPosition(10.0f, 750.0f);
+  m_message2.setScale(0.7f, 0.7f);
 }
 
 void Jeu::bouclePrincipale() {
@@ -191,6 +207,7 @@ void Jeu::afficher() {
   afficherCases();
   m_chemins.afficher(m_window);
   m_joueurs.afficher(m_window);
+  afficherMessage();
 
   m_window->display();
 }
@@ -202,4 +219,38 @@ void Jeu::afficherCases() {
       m_window->draw(m_plancheDeJeu[i][j].m_text);
     }
   }
+}
+
+void Jeu::afficherMessage() {
+  std::string message1;
+  std::string message2;
+
+  sf::Color couleur1;
+  sf::Color couleur2;
+
+  switch (m_etat) {
+  case Jeu::Etat::attenteJoueur:
+    message1 = "C'est au tour de " + m_joueurCourant->obtenirNom();
+    couleur1 = couleurASfColor(m_joueurCourant->obtenirCouleur());
+
+    message2 = "Appuyer sur espace pour lancer le dé";
+    couleur2 = sf::Color(255, 255, 255, 255);
+    break;
+  default:
+    message1 = "";
+    couleur1 = sf::Color(0, 0, 0, 255);
+
+    message2 = "";
+    couleur2 = sf::Color(0, 0, 0, 255);
+    break;
+  }
+
+  m_message1.setString(message1);
+  m_message1.setFillColor(couleur1);
+
+  m_message2.setString(message2);
+  m_message2.setFillColor(couleur2);
+
+  m_window->draw(m_message1);
+  m_window->draw(m_message2);
 }

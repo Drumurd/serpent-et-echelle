@@ -16,14 +16,10 @@
 
 class Jeu {
 public:
-  struct Case {
-    sf::Sprite m_sprite;
-    sf::Text m_text;
-    sf::Vector2f m_position;
-  };
-
   Jeu();
   ~Jeu();
+
+  enum class Etat { attenteJoueur, animation, pause };
 
   void demarrer();
 
@@ -36,11 +32,13 @@ private:
   sf::Texture *m_textureCaseSpeciale;
 
   sf::Font *m_textFont;
-  sf::Text m_texteStatus;
+  sf::Text m_message1;
+  sf::Text m_message2;
 
   Liste_Chemin m_chemins;
   Liste_Joueur m_joueurs;
 
+  Etat m_etat;
   Joueur *m_joueurCourant;
 
   unsigned int m_nbJoueurs;
@@ -52,6 +50,7 @@ private:
   void chargerTexturesCases();
   void chargerCases();
   void chargerTexteCases();
+  void chargerMessages();
 
   void bouclePrincipale();
 
@@ -59,4 +58,5 @@ private:
 
   void afficher();
   void afficherCases();
+  void afficherMessage();
 };

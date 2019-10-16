@@ -24,6 +24,8 @@ public:
 
   sf::Sprite obtenirSprite() const;
 
+  std::string obtenirNom() const;
+
   void afficher(sf::RenderWindow *window);
 
 private:

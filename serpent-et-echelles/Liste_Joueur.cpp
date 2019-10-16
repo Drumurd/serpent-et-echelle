@@ -50,3 +50,5 @@ void Liste_Joueur::liberer() {
   }
   m_premier = nullptr;
 }
+
+Joueur *Liste_Joueur::obtenirPremier() const { return m_premier; }
