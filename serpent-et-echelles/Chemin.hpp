@@ -18,6 +18,8 @@ public:
   unsigned int obtenirCaseHaut() const;
   unsigned int obtenirCaseBas() const;
 
+  void afficher(sf::RenderWindow *window);
+
 private:
   unsigned int m_caseHaut;
   unsigned int m_caseBas;

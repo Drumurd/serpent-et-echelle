@@ -7,7 +7,9 @@ Chemin::Chemin()
 
 Chemin::Chemin(unsigned int caseHaut, unsigned int caseBas, Type type)
     : m_caseBas(caseBas), m_caseHaut(caseHaut), m_type(type),
-      m_suivant(nullptr) {}
+      m_suivant(nullptr) {
+  chargerSprite();
+}
 
 Chemin::~Chemin() {}
 
@@ -17,6 +19,8 @@ Chemin *Chemin::obtenirSuivant() const { return m_suivant; }
 
 unsigned int Chemin::obtenirCaseHaut() const { return m_caseHaut; }
 unsigned int Chemin::obtenirCaseBas() const { return m_caseBas; }
+
+void Chemin::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 
 /////////////////////////////////////////////////////// private
 

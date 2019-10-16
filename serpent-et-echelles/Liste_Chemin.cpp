@@ -6,7 +6,13 @@ Liste_Chemin::Liste_Chemin() : m_premier(nullptr) {}
 
 Liste_Chemin::~Liste_Chemin() { liberer(); }
 
-void Liste_Chemin::afficher(sf::RenderWindow *window) {}
+void Liste_Chemin::afficher(sf::RenderWindow *window) {
+  Chemin *courant = m_premier;
+  while (courant != nullptr) {
+    courant->afficher(window);
+    courant = courant->obtenirSuivant();
+  }
+}
 
 void Liste_Chemin::ajouter(Chemin *chemin) {
   chemin->determinerSuivant(m_premier);
