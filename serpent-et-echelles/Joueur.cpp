@@ -59,7 +59,7 @@ void Joueur::chargerSprite() {
 
   if (!m_texture.loadFromFile(path)) {
     std::string erreur = "Impossible de charger la texture \"" + path + "\"";
-    throw std::exception(erreur.c_str());
+    throw std::runtime_error(erreur.c_str());
   }
 
   m_sprite = sf::Sprite(m_texture);

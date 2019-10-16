@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string>
 
+#include <ctime>
+#include <random>
+
 #include "Joueur.hpp"
 #include "Liste_Joueur.hpp"
 
@@ -47,10 +50,13 @@ private:
   void initialiserJeu();
 
   void chargerPlancheDeJeu();
+
   void chargerTexturesCases();
   void chargerCases();
   void chargerTexteCases();
+
   void chargerMessages();
+  void chargerCheminsStatiques();
 
   void bouclePrincipale();
 

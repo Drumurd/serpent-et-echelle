@@ -5,7 +5,7 @@
 Jeu::Jeu()
     : m_window(), m_nbJoueurs(0), m_event(), m_textureCase(nullptr),
       m_textureCaseSpeciale(nullptr), m_textFont(nullptr),
-      m_joueurCourant(nullptr) {}
+      m_etat(Etat::attenteJoueur), m_joueurCourant(nullptr) {}
 
 Jeu::~Jeu() {
   delete m_window;
@@ -17,6 +17,8 @@ Jeu::~Jeu() {
 }
 
 void Jeu::demarrer() {
+
+  std::srand((unsigned)std::time(NULL));
 
   entrerInfoJoueurs();
   initialiserJeu();
@@ -33,11 +35,11 @@ void Jeu::entrerInfoJoueurs() {
   while (!valide) {
     std::cout << "Combien de joueurs ? ";
 
-    // si l'utilisateur entre autre chose qu'un chiffre
-    if (!(std::cin >> m_nbJoueurs)) {
-      std::cin.clear();
-      std::cin.ignore(10000, '\n');
-    }
+    std::cin >> m_nbJoueurs;
+
+    // empecher les caracteres de déborder
+    std::cin.clear();
+    std::cin.ignore(10000, '\n');
 
     if (m_nbJoueurs < 2 || m_nbJoueurs > 6)
       std::cout << "Le nombre de joueurs doit etre entre 2 et 6" << std::endl;
@@ -66,7 +68,7 @@ void Jeu::initialiserJeu() {
       new sf::RenderWindow(sf::VideoMode(800, 800), "Serpents et Échelles");
 
   if (m_window == nullptr) {
-    throw std::exception("Impossible de charger la fenêtre");
+    throw std::runtime_error("Impossible de charger la fenêtre");
   }
 
   m_window->setVerticalSyncEnabled(true);
@@ -75,12 +77,12 @@ void Jeu::initialiserJeu() {
   chargerMessages();
 
   m_joueurCourant = m_joueurs.obtenirPremier();
-  m_etat = Etat::attenteJoueur;
 }
 
 void Jeu::chargerPlancheDeJeu() {
   chargerCases();
   chargerTexteCases();
+  chargerCheminsStatiques();
 }
 
 void Jeu::chargerTexturesCases() {
@@ -101,13 +103,13 @@ void Jeu::chargerTexturesCases() {
   if (!m_textureCase->loadFromFile(pathTexture)) {
     std::string erreur =
         "Impossible de charger la texture \"" + pathTexture + "\"";
-    throw std::exception(erreur.c_str());
+    throw std::runtime_error(erreur.c_str());
   }
 
   if (!m_textureCaseSpeciale->loadFromFile(pathTextureSpeciale)) {
     std::string erreur =
         "Impossible de charger la texture \"" + pathTextureSpeciale + "\"";
-    throw std::exception(erreur.c_str());
+    throw std::runtime_error(erreur.c_str());
   }
 }
 
@@ -142,7 +144,7 @@ void Jeu::chargerTexteCases() {
 
   if (!m_textFont->loadFromFile(path)) {
     std::string erreur = "Impossible de charger la police \"" + path + "\"";
-    throw std::exception(erreur.c_str());
+    throw std::runtime_error(erreur.c_str());
   }
 
   unsigned noCase = 99;
@@ -181,6 +183,28 @@ void Jeu::chargerMessages() {
   m_message2.setFont(*m_textFont);
   m_message2.setPosition(10.0f, 750.0f);
   m_message2.setScale(0.7f, 0.7f);
+}
+
+void Jeu::chargerCheminsStatiques() {
+  Chemin *chemin;
+
+  chemin = new Chemin(99u, 78u, Chemin::Type::echelle);
+  m_chemins.ajouter(chemin);
+
+  chemin = new Chemin(22u, 2, Chemin::Type::echelle);
+  m_chemins.ajouter(chemin);
+
+  chemin = new Chemin(72u, 47u, Chemin::Type::echelle);
+  m_chemins.ajouter(chemin);
+
+  chemin = new Chemin(95u, 64u, Chemin::Type::serpent);
+  m_chemins.ajouter(chemin);
+
+  chemin = new Chemin(39u, 0u, Chemin::Type::serpent);
+  m_chemins.ajouter(chemin);
+
+  chemin = new Chemin(51u, 48u, Chemin::Type::serpent);
+  m_chemins.ajouter(chemin);
 }
 
 void Jeu::bouclePrincipale() {

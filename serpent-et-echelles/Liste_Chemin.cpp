@@ -4,17 +4,42 @@
 
 Liste_Chemin::Liste_Chemin() : m_premier(nullptr) {}
 
-Liste_Chemin::~Liste_Chemin() {}
+Liste_Chemin::~Liste_Chemin() { liberer(); }
 
 void Liste_Chemin::afficher(sf::RenderWindow *window) {}
-void Liste_Chemin::ajouter(Chemin chemin) {}
-void Liste_Chemin::liberer() {}
 
-Chemin Liste_Chemin::chercherBas(unsigned int caseAChercher) {
-  Chemin chemin;
-  return chemin;
+void Liste_Chemin::ajouter(Chemin *chemin) {
+  chemin->determinerSuivant(m_premier);
+  m_premier = chemin;
 }
-Chemin Liste_Chemin::chercherHaut(unsigned int caseAChercher) {
-  Chemin chemin;
-  return chemin;
+void Liste_Chemin::liberer() {
+  Chemin *courant = m_premier;
+  while (courant != nullptr) {
+    Chemin *aSupprimer = courant;
+    courant = courant->obtenirSuivant();
+    delete aSupprimer;
+  }
+}
+
+Chemin *Liste_Chemin::chercherBas(unsigned int caseAChercher) {
+  Chemin *courant = m_premier;
+  while (courant != nullptr) {
+    if (courant->obtenirCaseBas() == caseAChercher)
+      break;
+    courant = courant->obtenirSuivant();
+  }
+
+  // retourne nullptr si rien n'est trouvé
+  return courant;
+}
+Chemin *Liste_Chemin::chercherHaut(unsigned int caseAChercher) {
+  Chemin *courant = m_premier;
+  while (courant != nullptr) {
+    if (courant->obtenirCaseHaut() == caseAChercher)
+      break;
+    courant = courant->obtenirSuivant();
+  }
+
+  // retourne nullptr si rien n'est trouvé
+  return courant;
 }
