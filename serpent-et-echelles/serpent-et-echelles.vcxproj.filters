@@ -11,51 +11,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\Case.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Chemin.cpp">
+    <ClCompile Include="src\Chemin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Jeu.cpp">
+    <ClCompile Include="src\Couleur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Joueur.cpp">
+    <ClCompile Include="src\Jeu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Liste_Chemin.cpp">
+    <ClCompile Include="src\Joueur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Liste_Joueur.cpp">
+    <ClCompile Include="src\Liste_Chemin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Couleur.cpp">
+    <ClCompile Include="src\Liste_Joueur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Case.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Chemin.hpp">
+    <ClInclude Include="include\Case.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Jeu.hpp">
+    <ClInclude Include="include\Chemin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Joueur.hpp">
+    <ClInclude Include="include\Couleur.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Liste_Chemin.hpp">
+    <ClInclude Include="include\Jeu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Liste_Joueur.hpp">
+    <ClInclude Include="include\Joueur.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Couleur.hpp">
+    <ClInclude Include="include\Liste_Chemin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Case.hpp">
+    <ClInclude Include="include\Liste_Joueur.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
