@@ -1,5 +1,7 @@
 #include "Liste_Chemin.hpp"
 
+/////////////////////////////////////////////////////// public
+
 Liste_Chemin::Liste_Chemin() : m_premier(nullptr) {}
 
 Liste_Chemin::~Liste_Chemin() {}

@@ -2,16 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
 
-enum class Couleur {
-  bleu = 0,
-  jaune = 1,
-  orange = 2,
-  rose = 3,
-  rouge = 4,
-  vert = 5,
-  nd = -1
-};
+enum class Couleur { bleu, jaune, orange, rose, rouge, vert, nd };
 
 Couleur intACouleur(int noCouleur);
 

@@ -5,8 +5,6 @@
 #include "Joueur.hpp"
 
 class Liste_Joueur {
-private:
-  Joueur *m_premier;
 
 public:
   Liste_Joueur();
@@ -17,5 +15,6 @@ public:
   void ajouter(Joueur *joueur);
   void liberer();
 
-  Joueur *getPremierJoueur();
+private:
+  Joueur *m_premier;
 };

@@ -58,7 +58,7 @@ std::string couleurAString(const Couleur &couleur) {
   case Couleur::vert:
     return "vert";
     break;
-  case Couleur::nd:
+  default:
     return "couleur non définie";
     break;
   }

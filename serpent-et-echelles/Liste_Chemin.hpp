@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 class Liste_Chemin {
-private:
-  Chemin *m_premier;
 
 public:
   Liste_Chemin();
@@ -17,4 +15,7 @@ public:
 
   Chemin chercherBas(unsigned int caseAChercher);
   Chemin chercherHaut(unsigned int caseAChercher);
+
+private:
+  Chemin *m_premier;
 };

@@ -1,32 +1,6 @@
 #include "Jeu.hpp"
 
-unsigned int NumeroCaseAColone(const unsigned int &numeroCase) {
-  // on arrondit à la dixaine la plus basse
-  unsigned int numeroColonne = numeroCase - (numeroCase % 10);
-
-  // on un chiffre entre 1 et 9 correspondant à la hauteur de la case
-  numeroColonne /= 10;
-
-  // on inverse le resultat pour avoir la même direction que le tableau de cases
-  return 9 - numeroColonne;
-}
-
-unsigned int NumeroCaseALigne(const unsigned int &numeroCase) {
-
-  // on arrondit à la dixaine la plus basse
-  unsigned int numeroColonne = numeroCase - (numeroCase % 10);
-
-  // on un chiffre entre 1 et 9 correspondant à la hauteur de la case
-  numeroColonne /= 10;
-
-  unsigned int numeroLigne = numeroCase - (10 * numeroColonne);
-
-  // si la colonne est pair, on inverse le sens de la ligne
-  if (numeroColonne % 2) {
-    numeroLigne = 9 - numeroLigne;
-  }
-  return numeroLigne;
-}
+/////////////////////////////////////////////////////// public
 
 Jeu::Jeu()
     : m_window(), m_nbJoueurs(0), m_event(), m_textureCase(nullptr),
@@ -42,14 +16,13 @@ Jeu::~Jeu() {
   delete m_textFont;
 }
 
-void Jeu::afficherCases() {
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
-      m_window->draw(m_plancheDeJeu[i][j].m_sprite);
-      m_window->draw(m_plancheDeJeu[i][j].m_text);
-    }
-  }
+void Jeu::demarrer() {
+  entrerInfoJoueurs();
+  initialiserJeu();
+  bouclePrincipale();
 }
+
+/////////////////////////////////////////////////////// private
 
 void Jeu::entrerInfoJoueurs() {
   m_nbJoueurs = 0;
@@ -114,7 +87,7 @@ void Jeu::chargerTexturesCases() {
 #ifdef _WIN32
   pathTexture = "assets\\textures\\case.jpg";
   pathTextureSpeciale = "assets\\textures\\case-speciale.jpg";
-#else
+#else  // linux, mac, unix, etc...
   pathTexture = "assets/textures/case.jpg";
   pathTextureSpeciale = "assets/textures/case-speciale.jpg";
 #endif // _WIN32
@@ -157,7 +130,7 @@ void Jeu::chargerTexteCases() {
 
 #ifdef _WIN32
   path = "assets\\fonts\\pixelated\\pixelated.ttf";
-#else
+#else  // linux, mac, unix, etc...
   path = "assets/fonts/pixelated/pixelated.ttf";
 #endif // _WIN32
 
@@ -222,8 +195,11 @@ void Jeu::afficher() {
   m_window->display();
 }
 
-void Jeu::demarrer() {
-  entrerInfoJoueurs();
-  initialiserJeu();
-  bouclePrincipale();
+void Jeu::afficherCases() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+      m_window->draw(m_plancheDeJeu[i][j].m_sprite);
+      m_window->draw(m_plancheDeJeu[i][j].m_text);
+    }
+  }
 }

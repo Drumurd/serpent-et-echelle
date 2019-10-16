@@ -1,5 +1,7 @@
 #include "Liste_Joueur.hpp"
 
+/////////////////////////////////////////////////////// public
+
 Liste_Joueur::Liste_Joueur() : m_premier(nullptr) {}
 
 Liste_Joueur::~Liste_Joueur() { liberer(); }
@@ -8,7 +10,7 @@ void Liste_Joueur::afficher(sf::RenderWindow *window) {
   Joueur *courant = m_premier;
 
   for (;;) {
-    window->draw(m_premier->obtenirSprite());
+    courant->afficher(window);
     courant = courant->obtenirSuivant();
     if (courant == m_premier)
       break;
@@ -48,5 +50,3 @@ void Liste_Joueur::liberer() {
   }
   m_premier = nullptr;
 }
-
-Joueur *Liste_Joueur::getPremierJoueur() { return m_premier; }

@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Case.cpp" />
     <ClCompile Include="Chemin.cpp" />
     <ClCompile Include="Couleur.cpp" />
     <ClCompile Include="Jeu.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Case.hpp" />
     <ClInclude Include="Chemin.hpp" />
     <ClInclude Include="Couleur.hpp" />
     <ClInclude Include="Jeu.hpp" />

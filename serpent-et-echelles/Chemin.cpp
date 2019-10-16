@@ -1,5 +1,8 @@
 #include "Chemin.hpp"
 
-Chemin::Chemin() : m_caseBas(0), m_caseHaut(0), m_suivant(nullptr) {}
+/////////////////////////////////////////////////////// public
+
+Chemin::Chemin()
+    : m_caseBas(0), m_caseHaut(0), m_suivant(nullptr), m_type(Type::serpent) {}
 
 Chemin::~Chemin() {}
