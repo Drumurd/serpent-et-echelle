@@ -22,7 +22,7 @@ public:
   Jeu();
   ~Jeu();
 
-  enum class Etat { attenteJoueur, animation, pause };
+  enum class Etat { attenteJoueur, animation, pause, partieTermine };
 
   void demarrer();
 
@@ -68,4 +68,6 @@ private:
   void afficherNumeroCases();
 
   void afficherMessage();
+
+  void jouerTour(Joueur *joueur);
 };

@@ -65,13 +65,13 @@ void Jeu::entrerInfoJoueurs() {
 }
 void Jeu::initialiserJeu() {
   m_window =
-      new sf::RenderWindow(sf::VideoMode(800, 800), "Serpents et Échelles");
+      new sf::RenderWindow(sf::VideoMode(800, 800), "Serpents et Echelles");
 
   if (m_window == nullptr) {
-    throw std::runtime_error("Impossible de charger la fenêtre");
+    throw std::runtime_error("Impossible de charger la fenetre");
   }
 
-  m_window->setVerticalSyncEnabled(true);
+  m_window->setFramerateLimit(60u);
 
   chargerPlancheDeJeu();
   chargerMessages();
@@ -191,19 +191,19 @@ void Jeu::chargerCheminsStatiques() {
   chemin = new Chemin(99u, 78u, Chemin::Type::echelle);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(22u, 2, Chemin::Type::echelle);
+  chemin = new Chemin(23u, 2, Chemin::Type::echelle);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(72u, 47u, Chemin::Type::echelle);
+  chemin = new Chemin(72u, 48u, Chemin::Type::echelle);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(95u, 64u, Chemin::Type::serpent);
+  chemin = new Chemin(95u, 62u, Chemin::Type::serpent);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(39u, 0u, Chemin::Type::serpent);
+  chemin = new Chemin(38u, 0u, Chemin::Type::serpent);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(45u, 34u, Chemin::Type::serpent);
+  chemin = new Chemin(45u, 32u, Chemin::Type::serpent);
   m_chemins.ajouter(chemin);
 }
 
@@ -220,6 +220,14 @@ void Jeu::gererInput() {
     switch (m_event.type) {
     case sf::Event::Closed:
       m_window->close();
+      break;
+    case sf::Event::KeyReleased:
+      switch (m_event.key.code) {
+      case sf::Keyboard::Space:
+        if (m_etat == Etat::attenteJoueur) {
+          jouerTour(m_joueurCourant);
+        }
+      }
       break;
     }
   }
@@ -266,9 +274,17 @@ void Jeu::afficherMessage() {
     message1 = "C'est au tour de " + m_joueurCourant->obtenirNom();
     couleur1 = couleurASfColor(m_joueurCourant->obtenirCouleur());
 
-    message2 = "Appuyer sur espace pour lancer le dé";
+    message2 = "Appuyer sur espace pour lancer le de";
     couleur2 = sf::Color(255, 255, 255, 255);
     break;
+  case Jeu::Etat::partieTermine:
+    message1 = "Partie terminée";
+    couleur1 = sf::Color(255, 0, 0, 255);
+
+    message2 = "Appuyez sur 'n' pour lancer une nouvelle partie";
+    couleur2 = sf::Color(255, 255, 255, 255);
+    break;
+
   default:
     message1 = "";
     couleur1 = sf::Color(0, 0, 0, 255);
@@ -286,4 +302,8 @@ void Jeu::afficherMessage() {
 
   m_window->draw(m_message1);
   m_window->draw(m_message2);
+}
+
+void Jeu::jouerTour(Joueur *joueur) {
+  m_joueurCourant = joueur->obtenirSuivant();
 }

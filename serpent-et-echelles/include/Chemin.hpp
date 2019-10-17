@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include <cassert>
+#include <cmath>
 #include <string>
 
 #include "Case.hpp"
@@ -27,6 +27,11 @@ public:
   void afficher(sf::RenderWindow *window);
   void placerSurCases();
 
+  void calculerPosition(sf::Vector2f &positionHaut, sf::Vector2f &positionBas);
+  float calculerRotation(const sf::Vector2f &positionHaut,
+                         const sf::Vector2f &positionBas, float &c);
+  sf::Vector2f calculerScale(const float &c, const float &rotation);
+
 private:
   unsigned int m_caseHaut;
   unsigned int m_caseBas;
@@ -34,8 +39,7 @@ private:
   sf::Texture m_texture;
   sf::Sprite m_sprite;
 
-  sf::Vector2f m_offsetCaseHaut;
-  sf::Vector2f m_offsetCaseBas;
+  sf::Vector2f m_offset;
 
   Type m_type;
 

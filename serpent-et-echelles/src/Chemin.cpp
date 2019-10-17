@@ -6,8 +6,8 @@ Chemin::Chemin()
     : m_caseBas(0), m_caseHaut(0), m_type(Type::serpent), m_suivant(nullptr) {}
 
 Chemin::Chemin(unsigned int caseHaut, unsigned int caseBas, Type type)
-    : m_caseBas(caseBas), m_caseHaut(caseHaut), m_type(type),
-      m_suivant(nullptr) {
+    : m_caseBas(caseBas), m_caseHaut(caseHaut), m_offset(40.f, 40.f),
+      m_type(type), m_suivant(nullptr) {
   chargerSprite();
   placerSurCases();
 }
@@ -27,40 +27,64 @@ void Chemin::placerSurCases() {
   sf::Vector2f positionHaut;
   sf::Vector2f positionBas;
 
-  sf::Vector2f distanceCases;
+  float c, rotation;
+
   sf::Vector2f scale;
 
-  m_offsetCaseHaut = sf::Vector2f(40.0f, 40.0f);
+  calculerPosition(positionHaut, positionBas);
+  rotation = calculerRotation(positionHaut, positionBas, c);
+  scale = calculerScale(c, rotation);
 
-  m_offsetCaseBas = sf::Vector2f(40.0f, 40.0f);
+  m_sprite.setRotation(rotation);
+  m_sprite.setPosition(positionHaut);
+  m_sprite.setScale(scale);
+}
 
-  positionHaut.x =
-      (NumeroCaseALigne(m_caseHaut) * LARGEUR_CASE) + m_offsetCaseHaut.x;
-  positionHaut.y =
-      (NumeroCaseAColone(m_caseHaut) * HAUTEUR_CASE) + m_offsetCaseHaut.y;
+void Chemin::calculerPosition(sf::Vector2f &positionHaut,
+                              sf::Vector2f &positionBas) {
 
-  positionBas.x =
-      (NumeroCaseALigne(m_caseBas) * LARGEUR_CASE) + m_offsetCaseBas.x;
-  positionBas.y =
-      (NumeroCaseAColone(m_caseBas) * HAUTEUR_CASE) + m_offsetCaseBas.y;
+  positionHaut.x = (NumeroCaseALigne(m_caseHaut) * LARGEUR_CASE) + m_offset.x;
+  positionHaut.y = (NumeroCaseAColone(m_caseHaut) * HAUTEUR_CASE) + m_offset.y;
 
-  assert(positionBas.y > positionHaut.y);
+  positionBas.x = (NumeroCaseALigne(m_caseBas) * LARGEUR_CASE) + m_offset.x;
+  positionBas.y = (NumeroCaseAColone(m_caseBas) * HAUTEUR_CASE) + m_offset.y;
+}
 
-  distanceCases = positionBas - positionHaut;
+float Chemin::calculerRotation(const sf::Vector2f &positionHaut,
+                               const sf::Vector2f &positionBas, float &c) {
+  float a, b;
+  const float pi = 3.14159265358979f;
+
+  // notre bel ami pythagore
+  a = positionHaut.x - positionBas.x;
+  b = positionBas.y - positionHaut.y;
+
+  c = std::sqrt(std::pow(a, 2) + std::pow(b, 2));
+
+  // moi je croyait ne pas avoir à réutiliser ça après le secondaire :(
+  return std::asin(a / c) * 180.f / pi;
+}
+
+sf::Vector2f Chemin::calculerScale(const float &c, const float &rotation) {
+  sf::Vector2f scale;
 
   switch (m_type) {
   case Chemin::Type::serpent:
     scale.x = 0.1f;
-    scale.y = distanceCases.y / LONGEUR_SERPENT;
+    scale.y = c / LONGEUR_SERPENT;
     break;
   case Chemin::Type::echelle:
     scale.x = 0.25f;
-    scale.y = distanceCases.y / LONGEUR_ECHELLE;
+    scale.y = c / LONGEUR_ECHELLE;
     break;
   }
 
-  m_sprite.setPosition(positionHaut);
-  m_sprite.setScale(scale);
+  // pour ne pas avoir de serpents la tête en bas
+  if (rotation > 0.f) {
+    scale.x *= -1.f;
+  }
+
+  return scale;
 }
 
 /////////////////////////////////////////////////////// private

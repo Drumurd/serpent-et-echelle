@@ -24,7 +24,7 @@ sf::Color couleurASfColor(const Couleur &couleur) {
   case Couleur::bleu:
     return sf::Color(0, 0, 255, 255);
   case Couleur::jaune:
-    return sf::Color(0, 255, 255, 255);
+    return sf::Color(255, 255, 0, 255);
   case Couleur::orange:
     return sf::Color(255, 128, 0, 255);
   case Couleur::rose:
@@ -59,7 +59,7 @@ std::string couleurAString(const Couleur &couleur) {
     return "vert";
     break;
   default:
-    return "couleur non définie";
+    return "couleur non definie";
     break;
   }
 }
@@ -85,7 +85,7 @@ std::ostream &operator<<(std::ostream &os, const Couleur &couleur) {
     os << "vert";
     break;
   case Couleur::nd:
-    os << "couleur non définie";
+    os << "couleur non definie";
     break;
   }
   return os;
