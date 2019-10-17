@@ -18,8 +18,6 @@ Jeu::~Jeu() {
 
 void Jeu::demarrer() {
 
-  std::srand((unsigned)std::time(NULL));
-
   entrerInfoJoueurs();
   initialiserJeu();
   bouclePrincipale();
@@ -77,6 +75,13 @@ void Jeu::initialiserJeu() {
   chargerMessages();
 
   m_joueurCourant = m_joueurs.obtenirPremier();
+}
+
+void Jeu::redemarrerJeu() {
+  m_joueurs.replacer();
+  m_joueurCourant = m_joueurs.obtenirPremier();
+
+  m_etat = Etat::attenteJoueur;
 }
 
 void Jeu::chargerPlancheDeJeu() {
@@ -182,7 +187,7 @@ void Jeu::chargerMessages() {
 
   m_message2.setFont(*m_textFont);
   m_message2.setPosition(10.0f, 750.0f);
-  m_message2.setScale(0.7f, 0.7f);
+  m_message2.setScale(0.5f, 0.5f);
 }
 
 void Jeu::chargerCheminsStatiques() {
@@ -221,12 +226,21 @@ void Jeu::gererInput() {
     case sf::Event::Closed:
       m_window->close();
       break;
+
     case sf::Event::KeyReleased:
+
       switch (m_event.key.code) {
       case sf::Keyboard::Space:
         if (m_etat == Etat::attenteJoueur) {
           jouerTour(m_joueurCourant);
         }
+        break;
+
+      case sf::Keyboard::N:
+        if (m_etat == Etat::partieTermine) {
+          redemarrerJeu();
+        }
+        break;
       }
       break;
     }
@@ -274,7 +288,7 @@ void Jeu::afficherMessage() {
     message1 = "C'est au tour de " + m_joueurCourant->obtenirNom();
     couleur1 = couleurASfColor(m_joueurCourant->obtenirCouleur());
 
-    message2 = "Appuyer sur espace pour lancer le de";
+    message2 = "Appuyer sur espace pour lancer le dé";
     couleur2 = sf::Color(255, 255, 255, 255);
     break;
   case Jeu::Etat::partieTermine:
@@ -305,5 +319,41 @@ void Jeu::afficherMessage() {
 }
 
 void Jeu::jouerTour(Joueur *joueur) {
+  unsigned int resultatDe = m_de.brasser();
+
+  effectuerDeplacements(joueur, resultatDe);
+
+  if (m_joueurCourant->obtenirCaseCourante() == 99) { // le joueur a gagné
+    m_etat = Etat::partieTermine;
+  }
+
   m_joueurCourant = joueur->obtenirSuivant();
+
+  std::cout << resultatDe << std::endl;
+}
+
+void Jeu::effectuerDeplacements(Joueur *joueur,
+                                const unsigned int &resultatDe) {
+  unsigned int emplacement = joueur->obtenirCaseCourante() + resultatDe;
+
+  joueur->placerDansCase(emplacement);
+
+  Chemin *chemin = m_chemins.chercherBas(emplacement);
+
+  if (chemin == nullptr) { // aucun chemin avec la case du bas à l'emplacement
+
+    chemin = m_chemins.chercherHaut(emplacement); // on cherche en haut
+
+    if (chemin != nullptr) { // un chemin avec la case du haut à l'emplacement
+      if (chemin->obtenirType() == Chemin::Type::serpent) {
+        // Si le chemin est un serpent, on descend
+        joueur->placerDansCase(chemin->obtenirCaseBas());
+      }
+    }
+  } else { // si il y a un chemin avec la case du haut à l'emplacement
+    if (chemin->obtenirType() == Chemin::Type::echelle) {
+      // si on a une échelle, on monte
+      joueur->placerDansCase(chemin->obtenirCaseHaut());
+    }
+  }
 }

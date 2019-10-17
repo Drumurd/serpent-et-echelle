@@ -15,6 +15,8 @@ public:
   void ajouter(Joueur *joueur);
   void liberer();
 
+  void replacer();
+
   Joueur *obtenirPremier() const;
 
 private:

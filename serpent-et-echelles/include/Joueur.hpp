@@ -13,7 +13,7 @@ public:
   Joueur(const Couleur &couleur, const std::string &nom);
   ~Joueur();
 
-  void placerDansCase(const unsigned int &numeroCase);
+  void placerDansCase(unsigned int numeroCase);
   void placerACoordonees(const sf::Vector2f &position);
 
   void determinerSuivant(Joueur *suivant);
@@ -25,6 +25,8 @@ public:
   sf::Sprite obtenirSprite() const;
 
   std::string obtenirNom() const;
+
+  unsigned int obtenirCaseCourante() const;
 
   void afficher(sf::RenderWindow *window);
 

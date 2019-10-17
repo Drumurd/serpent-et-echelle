@@ -16,8 +16,12 @@ Joueur::Joueur(const Couleur &couleur, const std::string &nom)
 
 Joueur::~Joueur() {}
 
-void Joueur::placerDansCase(const unsigned int &numeroCase) {
+void Joueur::placerDansCase(unsigned int numeroCase) {
   sf::Vector2f coordonees;
+
+  // on s'assure de ne pas dépasser le jeu
+  if (numeroCase > 99)
+    numeroCase = 99;
 
   unsigned int x = NumeroCaseALigne(numeroCase);
   unsigned int y = NumeroCaseAColone(numeroCase);
@@ -28,6 +32,7 @@ void Joueur::placerDansCase(const unsigned int &numeroCase) {
   coordonees += m_offset;
 
   placerACoordonees(coordonees);
+  m_caseActuelle = numeroCase;
 }
 
 void Joueur::placerACoordonees(const sf::Vector2f &position) {
@@ -43,6 +48,8 @@ Couleur Joueur::obtenirCouleur() const { return m_couleur; }
 sf::Sprite Joueur::obtenirSprite() const { return m_sprite; }
 
 std::string Joueur::obtenirNom() const { return m_nom; }
+
+unsigned int Joueur::obtenirCaseCourante() const { return m_caseActuelle; }
 
 void Joueur::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 

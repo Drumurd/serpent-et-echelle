@@ -21,6 +21,8 @@ Chemin *Chemin::obtenirSuivant() const { return m_suivant; }
 unsigned int Chemin::obtenirCaseHaut() const { return m_caseHaut; }
 unsigned int Chemin::obtenirCaseBas() const { return m_caseBas; }
 
+Chemin::Type Chemin::obtenirType() const { return m_type; }
+
 void Chemin::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 
 void Chemin::placerSurCases() {

@@ -24,6 +24,8 @@ public:
   unsigned int obtenirCaseHaut() const;
   unsigned int obtenirCaseBas() const;
 
+  Type obtenirType() const;
+
   void afficher(sf::RenderWindow *window);
   void placerSurCases();
 

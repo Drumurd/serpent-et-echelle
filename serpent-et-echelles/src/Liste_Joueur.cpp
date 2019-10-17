@@ -37,6 +37,18 @@ void Liste_Joueur::ajouter(Joueur *joueur) {
     }
   }
 }
+
+void Liste_Joueur::replacer() {
+  Joueur *courant = m_premier;
+
+  for (;;) {
+    courant->placerDansCase(0);
+    courant = courant->obtenirSuivant();
+    if (courant == m_premier)
+      break;
+  }
+}
+
 void Liste_Joueur::liberer() {
   Joueur *courant = m_premier;
   for (;;) {

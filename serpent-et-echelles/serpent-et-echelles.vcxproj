@@ -22,6 +22,7 @@
     <ClCompile Include="src\Case.cpp" />
     <ClCompile Include="src\Chemin.cpp" />
     <ClCompile Include="src\Couleur.cpp" />
+    <ClCompile Include="src\De.cpp" />
     <ClCompile Include="src\Jeu.cpp" />
     <ClCompile Include="src\Joueur.cpp" />
     <ClCompile Include="src\Liste_Chemin.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="include\Case.hpp" />
     <ClInclude Include="include\Chemin.hpp" />
     <ClInclude Include="include\Couleur.hpp" />
+    <ClInclude Include="include\De.hpp" />
     <ClInclude Include="include\Jeu.hpp" />
     <ClInclude Include="include\Joueur.hpp" />
     <ClInclude Include="include\Liste_Chemin.hpp" />

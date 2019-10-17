@@ -15,6 +15,7 @@
 #include "Liste_Chemin.hpp"
 
 #include "Couleur.hpp"
+#include "De.hpp"
 #include "case.hpp"
 
 class Jeu {
@@ -41,6 +42,8 @@ private:
   Liste_Chemin m_chemins;
   Liste_Joueur m_joueurs;
 
+  De m_de;
+
   Etat m_etat;
   Joueur *m_joueurCourant;
 
@@ -48,6 +51,8 @@ private:
 
   void entrerInfoJoueurs();
   void initialiserJeu();
+
+  void redemarrerJeu();
 
   void chargerPlancheDeJeu();
 
@@ -70,4 +75,5 @@ private:
   void afficherMessage();
 
   void jouerTour(Joueur *joueur);
+  void effectuerDeplacements(Joueur *joueur, const unsigned int &resultatDe);
 };
