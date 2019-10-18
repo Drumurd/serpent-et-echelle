@@ -27,11 +27,16 @@ public:
 
   unsigned int obtenirCaseCourante() const;
 
+  void ajouterDestination(const unsigned int noCase);
+
   void afficher(sf::RenderWindow *window);
-  void update();
+  bool update();
 
 private:
   unsigned int m_caseActuelle;
+  unsigned int m_pileDestinations[7];
+  unsigned int m_profondeurPile;
+
   Couleur m_couleur;
   std::string m_nom;
 

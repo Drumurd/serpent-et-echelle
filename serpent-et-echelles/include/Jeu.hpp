@@ -23,7 +23,7 @@ public:
   Jeu();
   ~Jeu();
 
-  enum class Etat { attenteJoueur, animation, pause, partieTermine };
+  enum class Etat { attenteJoueur, brassageDe, mouvementJoueur, partieTermine };
 
   void demarrer();
 

@@ -183,8 +183,8 @@ void Jeu::chargerMessages() {
   m_message1.setScale(0.7f, 0.7f);
 
   m_message2.setFont(*m_textFont);
-  m_message2.setPosition(10.f, 750.f);
-  m_message2.setScale(0.5f, 0.5f);
+  m_message2.setPosition(10.f, 755.f);
+  m_message2.setScale(0.4f, 0.4f);
 }
 
 void Jeu::chargerCheminsStatiques() {
@@ -229,7 +229,7 @@ void Jeu::gererInput() {
       switch (m_event.key.code) {
       case sf::Keyboard::Space:
         if (m_etat == Etat::attenteJoueur) {
-          jouerTour(m_joueurCourant);
+          m_etat = Etat::brassageDe;
         }
         break;
 
@@ -253,6 +253,8 @@ void Jeu::afficher() {
 
   afficherNumeroCases();
   afficherMessage();
+
+  m_de.afficher(m_window);
 
   m_window->display();
 }
@@ -279,23 +281,9 @@ void Jeu::afficherMessage() {
 }
 
 void Jeu::jouerTour(Joueur *joueur) {
-  unsigned int resultatDe = m_de.brasser();
+  unsigned int resultatDe = m_de.obtenirResultat();
 
-  effectuerDeplacements(joueur, resultatDe);
-
-  if (m_joueurCourant->obtenirCaseCourante() == 99u) { // le joueur a gagné
-    m_etat = Etat::partieTermine;
-  }
-
-  m_joueurCourant = joueur->obtenirSuivant();
-
-  std::cout << resultatDe << std::endl;
-}
-
-void Jeu::effectuerDeplacements(Joueur *joueur, const unsigned int resultatDe) {
   unsigned int emplacement = joueur->obtenirCaseCourante() + resultatDe;
-
-  joueur->placerDansCase(emplacement);
 
   Chemin *chemin = m_chemins.chercherBas(emplacement);
 
@@ -306,20 +294,47 @@ void Jeu::effectuerDeplacements(Joueur *joueur, const unsigned int resultatDe) {
     if (chemin != nullptr) { // un chemin avec la case du haut à l'emplacement
       if (chemin->obtenirType() == Chemin::Type::serpent) {
         // Si le chemin est un serpent, on descend
-        joueur->placerDansCase(chemin->obtenirCaseBas());
+        joueur->ajouterDestination(chemin->obtenirCaseBas());
       }
     }
   } else { // si il y a un chemin avec la case du haut à l'emplacement
     if (chemin->obtenirType() == Chemin::Type::echelle) {
       // si on a une échelle, on monte
-      joueur->placerDansCase(chemin->obtenirCaseHaut());
+      joueur->ajouterDestination(chemin->obtenirCaseHaut());
     }
+  }
+
+  for (unsigned int i = 0u; i < emplacement - joueur->obtenirCaseCourante();
+       i++) {
+    joueur->ajouterDestination(emplacement - i);
   }
 }
 
+void Jeu::effectuerDeplacements(Joueur *joueur, const unsigned int resultatDe) {
+
+}
+
 void Jeu::update() {
+  switch (m_etat) {
+
+  case Jeu::Etat::brassageDe:
+    if (m_de.update()) {
+      jouerTour(m_joueurCourant);
+      m_etat = Etat::mouvementJoueur;
+    }
+    break;
+  case Jeu::Etat::mouvementJoueur:
+    if (m_joueurCourant->update()) { // l'animation du joueur est terminee
+      m_etat = Etat::attenteJoueur;
+      if (m_joueurCourant->obtenirCaseCourante() == 99u) { // le joueur a gagné
+        m_etat = Etat::partieTermine;
+      }
+      m_joueurCourant = m_joueurCourant->obtenirSuivant();
+    }
+    break;
+  }
+
   updateMessages();
-  m_joueurs.update();
 }
 
 void Jeu::updateMessages() {
@@ -344,7 +359,20 @@ void Jeu::updateMessages() {
     message2 = "Appuyez sur 'n' pour lancer une nouvelle partie";
     couleur2 = sf::Color(255u, 255u, 255u, 255u);
     break;
+  case Jeu::Etat::mouvementJoueur:
+    message1 = m_joueurCourant->obtenirNom();
+    couleur1 = couleurASfColor(m_joueurCourant->obtenirCouleur());
 
+    message2 = "avance de " + std::to_string(m_de.obtenirResultat()) + " cases";
+    couleur2 = sf::Color(255u, 255u, 255u, 255u);
+    break;
+  case Jeu::Etat::brassageDe:
+    message1 = "Roulement du dé";
+    couleur1 = sf::Color(255u, 255u, 255u, 255u);
+
+    message2 = "";
+    couleur2 = sf::Color(0u, 0u, 0u, 255);
+    break;
   default:
     message1 = "";
     couleur1 = sf::Color(0u, 0u, 0u, 255u);

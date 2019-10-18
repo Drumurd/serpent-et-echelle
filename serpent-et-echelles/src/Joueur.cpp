@@ -3,12 +3,13 @@
 /////////////////////////////////////////////////////// public
 
 Joueur::Joueur()
-    : m_caseActuelle(0u), m_couleur(Couleur::nd), m_nom(""), m_offset(0.f, 0.f),
+    : m_caseActuelle(0u), m_pileDestinations(), m_profondeurPile(0u),
+      m_couleur(Couleur::nd), m_nom(""), m_offset(0.f, 0.f),
       m_suivant(nullptr) {}
 
 Joueur::Joueur(const Couleur &couleur, const std::string &nom)
-    : m_caseActuelle(0u), m_couleur(couleur), m_nom(nom), m_offset(0.f, 0.f),
-      m_suivant(nullptr) {
+    : m_caseActuelle(0u), m_pileDestinations(), m_profondeurPile(0u),
+      m_couleur(couleur), m_nom(nom), m_offset(0.f, 0.f), m_suivant(nullptr) {
   chargerSprite();
   determinerOffset();
   placerDansCase(0);
@@ -47,9 +48,56 @@ std::string Joueur::obtenirNom() const { return m_nom; }
 
 unsigned int Joueur::obtenirCaseCourante() const { return m_caseActuelle; }
 
+void Joueur::ajouterDestination(const unsigned int noCase) {
+  if (m_profondeurPile == 7) {
+    throw std::runtime_error("Buffer overflow");
+  }
+  m_pileDestinations[m_profondeurPile] = noCase;
+  m_profondeurPile++;
+}
+
 void Joueur::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 
-void Joueur::update() {}
+// retourne true si l'animation est terminée
+bool Joueur::update() {
+  if (m_profondeurPile == 0) {
+    return true;
+  }
+
+  sf::Vector2f positionActuelle;
+  sf::Vector2f destination;
+
+  positionActuelle.x = m_sprite.getGlobalBounds().left;
+  positionActuelle.y = m_sprite.getGlobalBounds().top;
+
+  destination.x = (NumeroCaseALigne(m_pileDestinations[m_profondeurPile - 1u]) *
+                   LARGEUR_CASE) +
+                  m_offset.x;
+  destination.y =
+      (NumeroCaseAColone(m_pileDestinations[m_profondeurPile - 1u]) *
+       HAUTEUR_CASE) +
+      m_offset.y;
+
+  if (destination.x < positionActuelle.x) {
+    positionActuelle.x -= 2.f;
+  } else if (destination.x > positionActuelle.x) {
+    positionActuelle.x += 2.f;
+  }
+
+  if (destination.y < positionActuelle.y) {
+    positionActuelle.y -= 2.f;
+  } else if (destination.y > positionActuelle.y) {
+    positionActuelle.y += 2.f;
+  }
+
+  m_sprite.setPosition(positionActuelle);
+
+  if (destination == positionActuelle) {
+    m_profondeurPile--;
+    m_caseActuelle = m_pileDestinations[m_profondeurPile];
+  }
+  return false;
+}
 
 /////////////////////////////////////////////////////// private
 
