@@ -212,7 +212,7 @@ void Jeu::chargerCheminsStatiques() {
 void Jeu::bouclePrincipale() {
   while (m_window->isOpen()) {
     gererInput();
-
+    update();
     afficher();
   }
 }
@@ -350,7 +350,7 @@ void Jeu::updateMessages() {
     couleur1 = sf::Color(0u, 0u, 0u, 255u);
 
     message2 = "";
-    couleur2 = sf::Color(0u, 0u, 0u, 255u);
+    couleur2 = sf::Color(0u, 0u, 0u, 255);
     break;
   }
 
