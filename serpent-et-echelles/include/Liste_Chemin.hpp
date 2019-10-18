@@ -13,8 +13,8 @@ public:
   void ajouter(Chemin *chemin);
   void liberer();
 
-  Chemin *chercherBas(unsigned int caseAChercher);
-  Chemin *chercherHaut(unsigned int caseAChercher);
+  Chemin *chercherBas(const unsigned int caseAChercher);
+  Chemin *chercherHaut(const unsigned int caseAChercher);
 
 private:
   Chemin *m_premier;

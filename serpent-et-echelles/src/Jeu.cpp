@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////// public
 
 Jeu::Jeu()
-    : m_window(), m_nbJoueurs(0), m_event(), m_textureCase(nullptr),
+    : m_window(), m_nbJoueurs(0u), m_event(), m_textureCase(nullptr),
       m_textureCaseSpeciale(nullptr), m_textFont(nullptr),
       m_etat(Etat::attenteJoueur), m_joueurCourant(nullptr) {}
 
@@ -27,7 +27,6 @@ void Jeu::demarrer() {
 
 void Jeu::entrerInfoJoueurs() {
 
-  m_nbJoueurs = 0;
   bool valide(false);
 
   while (!valide) {
@@ -39,20 +38,18 @@ void Jeu::entrerInfoJoueurs() {
     std::cin.clear();
     std::cin.ignore(10000, '\n');
 
-    if (m_nbJoueurs < 2 || m_nbJoueurs > 6)
+    if (m_nbJoueurs < 2u || m_nbJoueurs > 6u)
       std::cout << "Le nombre de joueurs doit etre entre 2 et 6" << std::endl;
     else
       valide = true;
   }
 
-  for (unsigned int i = 0; i < m_nbJoueurs; i++) {
+  for (unsigned int i = 0u; i < m_nbJoueurs; i++) {
     std::string nom("");
     Couleur couleur(intACouleur(i));
 
     std::cout << std::endl << "Quel est le nom du joueur " << i + 1 << "? ";
     std::cin >> nom;
-    // std::cin.clear();
-    // std::cin.ignore(10000, '\n');
 
     Joueur *joueur = new Joueur(couleur, nom);
     m_joueurs.ajouter(joueur);
@@ -61,9 +58,10 @@ void Jeu::entrerInfoJoueurs() {
               << std::endl;
   }
 }
+
 void Jeu::initialiserJeu() {
   m_window =
-      new sf::RenderWindow(sf::VideoMode(800, 800), "Serpents et Echelles");
+      new sf::RenderWindow(sf::VideoMode(800u, 800u), "Serpents et Echelles");
 
   if (m_window == nullptr) {
     throw std::runtime_error("Impossible de charger la fenetre");
@@ -97,13 +95,13 @@ void Jeu::chargerTexturesCases() {
   std::string pathTexture;
   std::string pathTextureSpeciale;
 
-#ifdef _WIN32
+#ifdef _WIN32 // windows
   pathTexture = "assets\\textures\\case.jpg";
   pathTextureSpeciale = "assets\\textures\\case-speciale.jpg";
-#else  // linux, mac, unix, etc...
+#else // linux, mac, unix, etc...
   pathTexture = "assets/textures/case.jpg";
   pathTextureSpeciale = "assets/textures/case-speciale.jpg";
-#endif // _WIN32
+#endif
 
   if (!m_textureCase->loadFromFile(pathTexture)) {
     std::string erreur =
@@ -126,11 +124,9 @@ void Jeu::chargerCases() {
       float x, y;
       x = j * LARGEUR_CASE;
       y = i * HAUTEUR_CASE;
-      sf::Vector2f positionTexture(x, y);
 
       m_plancheDeJeu[i][j].m_sprite = sf::Sprite(*m_textureCase);
-      m_plancheDeJeu[i][j].m_sprite.setPosition(positionTexture);
-      m_plancheDeJeu[i][j].m_position = positionTexture;
+      m_plancheDeJeu[i][j].m_sprite.setPosition(x, y);
     }
   }
   m_plancheDeJeu[9][0].m_sprite.setTexture(*m_textureCaseSpeciale);
@@ -141,33 +137,32 @@ void Jeu::chargerTexteCases() {
   m_textFont = new sf::Font;
   std::string path;
 
-#ifdef _WIN32
+#ifdef _WIN32 // windows
   path = "assets\\fonts\\press_start_2p\\PressStart2P.ttf";
-#else  // linux, mac, unix, etc...
+#else // linux, mac, unix, etc...
   path = "assets/fonts/press_start_2p/PressStart2P.ttf";
-#endif // _WIN32
+#endif
 
   if (!m_textFont->loadFromFile(path)) {
     std::string erreur = "Impossible de charger la police \"" + path + "\"";
     throw std::runtime_error(erreur.c_str());
   }
 
-  unsigned noCase = 99;
+  unsigned noCase = 99u;
 
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
+  for (unsigned int i = 0u; i < 10u; i++) {
+    for (unsigned int j = 0u; j < 10u; j++) {
       float x, y;
-      x = j * LARGEUR_CASE + 7.0f;
-      y = i * HAUTEUR_CASE + 7.0f;
-
-      sf::Vector2f positionTexte(x, y);
+      x = j * LARGEUR_CASE + 7.f;
+      y = i * HAUTEUR_CASE + 7.f;
 
       m_plancheDeJeu[i][j].m_text.setFont(*m_textFont);
-      m_plancheDeJeu[i][j].m_text.setFillColor(sf::Color(255, 255, 255, 255));
+      m_plancheDeJeu[i][j].m_text.setFillColor(
+          sf::Color(255u, 255u, 255u, 255u));
       m_plancheDeJeu[i][j].m_text.setScale(0.35f, 0.35f);
-      m_plancheDeJeu[i][j].m_text.setPosition(positionTexte);
+      m_plancheDeJeu[i][j].m_text.setPosition(x, y);
 
-      if (i % 2) {
+      if (i % 2) { // placer en alternant la direction des nombres
         m_plancheDeJeu[i][9 - j].m_text.setString(std::to_string(noCase));
       } else {
         m_plancheDeJeu[i][j].m_text.setString(std::to_string(noCase));
@@ -176,17 +171,19 @@ void Jeu::chargerTexteCases() {
       noCase--;
     }
   }
+
+  // cases spéciales
   m_plancheDeJeu[9][0].m_text.setString("Depart");
   m_plancheDeJeu[0][0].m_text.setString("Fin");
 }
 
 void Jeu::chargerMessages() {
   m_message1.setFont(*m_textFont);
-  m_message1.setPosition(10.0f, 710.0f);
+  m_message1.setPosition(10.f, 710.f);
   m_message1.setScale(0.7f, 0.7f);
 
   m_message2.setFont(*m_textFont);
-  m_message2.setPosition(10.0f, 750.0f);
+  m_message2.setPosition(10.f, 750.f);
   m_message2.setScale(0.5f, 0.5f);
 }
 
@@ -196,7 +193,7 @@ void Jeu::chargerCheminsStatiques() {
   chemin = new Chemin(99u, 78u, Chemin::Type::echelle);
   m_chemins.ajouter(chemin);
 
-  chemin = new Chemin(23u, 2, Chemin::Type::echelle);
+  chemin = new Chemin(23u, 2u, Chemin::Type::echelle);
   m_chemins.ajouter(chemin);
 
   chemin = new Chemin(72u, 48u, Chemin::Type::echelle);
@@ -248,7 +245,7 @@ void Jeu::gererInput() {
 }
 
 void Jeu::afficher() {
-  m_window->clear(sf::Color(0, 0, 0, 255));
+  m_window->clear(sf::Color(0u, 0u, 0u, 255u));
 
   afficherCases();
   m_chemins.afficher(m_window);
@@ -261,59 +258,22 @@ void Jeu::afficher() {
 }
 
 void Jeu::afficherCases() {
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
+  for (unsigned int i = 0u; i < 10u; i++) {
+    for (unsigned int j = 0u; j < 10u; j++) {
       m_window->draw(m_plancheDeJeu[i][j].m_sprite);
     }
   }
 }
 
 void Jeu::afficherNumeroCases() {
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
+  for (unsigned int i = 0u; i < 10u; i++) {
+    for (unsigned int j = 0u; j < 10u; j++) {
       m_window->draw(m_plancheDeJeu[i][j].m_text);
     }
   }
 }
 
 void Jeu::afficherMessage() {
-  std::string message1;
-  std::string message2;
-
-  sf::Color couleur1;
-  sf::Color couleur2;
-
-  switch (m_etat) {
-  case Jeu::Etat::attenteJoueur:
-    message1 = "C'est au tour de " + m_joueurCourant->obtenirNom();
-    couleur1 = couleurASfColor(m_joueurCourant->obtenirCouleur());
-
-    message2 = "Appuyer sur espace pour lancer le dé";
-    couleur2 = sf::Color(255, 255, 255, 255);
-    break;
-  case Jeu::Etat::partieTermine:
-    message1 = "Partie terminée";
-    couleur1 = sf::Color(255, 0, 0, 255);
-
-    message2 = "Appuyez sur 'n' pour lancer une nouvelle partie";
-    couleur2 = sf::Color(255, 255, 255, 255);
-    break;
-
-  default:
-    message1 = "";
-    couleur1 = sf::Color(0, 0, 0, 255);
-
-    message2 = "";
-    couleur2 = sf::Color(0, 0, 0, 255);
-    break;
-  }
-
-  m_message1.setString(message1);
-  m_message1.setFillColor(couleur1);
-
-  m_message2.setString(message2);
-  m_message2.setFillColor(couleur2);
-
   m_window->draw(m_message1);
   m_window->draw(m_message2);
 }
@@ -323,7 +283,7 @@ void Jeu::jouerTour(Joueur *joueur) {
 
   effectuerDeplacements(joueur, resultatDe);
 
-  if (m_joueurCourant->obtenirCaseCourante() == 99) { // le joueur a gagné
+  if (m_joueurCourant->obtenirCaseCourante() == 99u) { // le joueur a gagné
     m_etat = Etat::partieTermine;
   }
 
@@ -332,8 +292,7 @@ void Jeu::jouerTour(Joueur *joueur) {
   std::cout << resultatDe << std::endl;
 }
 
-void Jeu::effectuerDeplacements(Joueur *joueur,
-                                const unsigned int &resultatDe) {
+void Jeu::effectuerDeplacements(Joueur *joueur, const unsigned int resultatDe) {
   unsigned int emplacement = joueur->obtenirCaseCourante() + resultatDe;
 
   joueur->placerDansCase(emplacement);
@@ -356,4 +315,48 @@ void Jeu::effectuerDeplacements(Joueur *joueur,
       joueur->placerDansCase(chemin->obtenirCaseHaut());
     }
   }
+}
+
+void Jeu::update() {
+  updateMessages();
+  m_joueurs.update();
+}
+
+void Jeu::updateMessages() {
+  std::string message1;
+  std::string message2;
+
+  sf::Color couleur1;
+  sf::Color couleur2;
+
+  switch (m_etat) {
+  case Jeu::Etat::attenteJoueur:
+    message1 = "C'est au tour de " + m_joueurCourant->obtenirNom();
+    couleur1 = couleurASfColor(m_joueurCourant->obtenirCouleur());
+
+    message2 = "Appuyer sur espace pour lancer le dé";
+    couleur2 = sf::Color(255u, 255u, 255u, 255u);
+    break;
+  case Jeu::Etat::partieTermine:
+    message1 = "Partie terminée";
+    couleur1 = sf::Color(255u, 0u, 0u, 255u);
+
+    message2 = "Appuyez sur 'n' pour lancer une nouvelle partie";
+    couleur2 = sf::Color(255u, 255u, 255u, 255u);
+    break;
+
+  default:
+    message1 = "";
+    couleur1 = sf::Color(0u, 0u, 0u, 255u);
+
+    message2 = "";
+    couleur2 = sf::Color(0u, 0u, 0u, 255u);
+    break;
+  }
+
+  m_message1.setString(message1);
+  m_message1.setFillColor(couleur1);
+
+  m_message2.setString(message2);
+  m_message2.setFillColor(couleur2);
 }

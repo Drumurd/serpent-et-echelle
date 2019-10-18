@@ -75,5 +75,8 @@ private:
   void afficherMessage();
 
   void jouerTour(Joueur *joueur);
-  void effectuerDeplacements(Joueur *joueur, const unsigned int &resultatDe);
+  void effectuerDeplacements(Joueur *joueur, const unsigned int resultatDe);
+
+  void update();
+  void updateMessages();
 };

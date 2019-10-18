@@ -17,6 +17,17 @@ void Liste_Joueur::afficher(sf::RenderWindow *window) {
   }
 }
 
+void Liste_Joueur::update() {
+  Joueur *courant = m_premier;
+
+  for (;;) {
+    courant->update();
+    courant = courant->obtenirSuivant();
+    if (courant == m_premier)
+      break;
+  }
+}
+
 void Liste_Joueur::ajouter(Joueur *joueur) {
 
   if (m_premier == nullptr) {
@@ -29,7 +40,6 @@ void Liste_Joueur::ajouter(Joueur *joueur) {
     for (;;) {
       if (courant->obtenirSuivant() == m_premier) {
         courant->determinerSuivant(joueur);
-        // m_premier = joueur;
         break;
       } else {
         courant = courant->obtenirSuivant();
@@ -42,7 +52,7 @@ void Liste_Joueur::replacer() {
   Joueur *courant = m_premier;
 
   for (;;) {
-    courant->placerDansCase(0);
+    courant->placerDansCase(0u);
     courant = courant->obtenirSuivant();
     if (courant == m_premier)
       break;

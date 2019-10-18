@@ -6,7 +6,7 @@
 
 enum class Couleur { bleu, jaune, orange, rose, rouge, vert, nd };
 
-Couleur intACouleur(int noCouleur);
+Couleur intACouleur(unsigned int noCouleur);
 
 sf::Color couleurASfColor(const Couleur &couleur);
 

@@ -1,18 +1,18 @@
 #include "Couleur.hpp"
 
-Couleur intACouleur(int noCouleur) {
+Couleur intACouleur(unsigned int noCouleur) {
   switch (noCouleur) {
-  case 0:
+  case 0u:
     return Couleur::bleu;
-  case 1:
+  case 1u:
     return Couleur::jaune;
-  case 2:
+  case 2u:
     return Couleur::orange;
-  case 3:
+  case 3u:
     return Couleur::rose;
-  case 4:
+  case 4u:
     return Couleur::rouge;
-  case 5:
+  case 5u:
     return Couleur::vert;
   default:
     return Couleur::nd;
@@ -22,17 +22,17 @@ Couleur intACouleur(int noCouleur) {
 sf::Color couleurASfColor(const Couleur &couleur) {
   switch (couleur) {
   case Couleur::bleu:
-    return sf::Color(0, 0, 255, 255);
+    return sf::Color(0u, 0u, 255u, 255u);
   case Couleur::jaune:
-    return sf::Color(255, 255, 0, 255);
+    return sf::Color(255u, 255u, 0u, 255u);
   case Couleur::orange:
-    return sf::Color(255, 128, 0, 255);
+    return sf::Color(255u, 128u, 0u, 255u);
   case Couleur::rose:
-    return sf::Color(255, 0, 255, 255);
+    return sf::Color(255u, 0u, 255u, 255u);
   case Couleur::rouge:
-    return sf::Color(255, 0, 0, 255);
+    return sf::Color(255u, 0u, 0u, 255u);
   case Couleur::vert:
-    return sf::Color(0, 255, 0, 255);
+    return sf::Color(0u, 255u, 0u, 255u);
   default:
     return sf::Color();
   }
@@ -65,28 +65,6 @@ std::string couleurAString(const Couleur &couleur) {
 }
 
 std::ostream &operator<<(std::ostream &os, const Couleur &couleur) {
-  switch (couleur) {
-  case Couleur::bleu:
-    os << "bleu";
-    break;
-  case Couleur::jaune:
-    os << "jaune";
-    break;
-  case Couleur::orange:
-    os << "orange";
-    break;
-  case Couleur::rose:
-    os << "rose";
-    break;
-  case Couleur::rouge:
-    os << "rouge";
-    break;
-  case Couleur::vert:
-    os << "vert";
-    break;
-  case Couleur::nd:
-    os << "couleur non definie";
-    break;
-  }
+  os << couleurAString(couleur);
   return os;
 }

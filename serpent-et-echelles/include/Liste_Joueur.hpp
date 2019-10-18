@@ -11,6 +11,7 @@ public:
   ~Liste_Joueur();
 
   void afficher(sf::RenderWindow *window);
+  void update();
 
   void ajouter(Joueur *joueur);
   void liberer();

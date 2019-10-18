@@ -27,7 +27,7 @@ void Liste_Chemin::liberer() {
   }
 }
 
-Chemin *Liste_Chemin::chercherBas(unsigned int caseAChercher) {
+Chemin *Liste_Chemin::chercherBas(const unsigned int caseAChercher) {
   Chemin *courant = m_premier;
   while (courant != nullptr) {
     if (courant->obtenirCaseBas() == caseAChercher)
@@ -38,7 +38,7 @@ Chemin *Liste_Chemin::chercherBas(unsigned int caseAChercher) {
   // retourne nullptr si rien n'est trouvé
   return courant;
 }
-Chemin *Liste_Chemin::chercherHaut(unsigned int caseAChercher) {
+Chemin *Liste_Chemin::chercherHaut(const unsigned int caseAChercher) {
   Chemin *courant = m_premier;
   while (courant != nullptr) {
     if (courant->obtenirCaseHaut() == caseAChercher)

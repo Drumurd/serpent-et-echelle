@@ -14,7 +14,6 @@ public:
   ~Joueur();
 
   void placerDansCase(unsigned int numeroCase);
-  void placerACoordonees(const sf::Vector2f &position);
 
   void determinerSuivant(Joueur *suivant);
 
@@ -29,6 +28,7 @@ public:
   unsigned int obtenirCaseCourante() const;
 
   void afficher(sf::RenderWindow *window);
+  void update();
 
 private:
   unsigned int m_caseActuelle;
