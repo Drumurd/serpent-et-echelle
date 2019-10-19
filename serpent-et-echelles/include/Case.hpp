@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 struct Case {
   sf::Sprite m_sprite;
   sf::Text m_text;

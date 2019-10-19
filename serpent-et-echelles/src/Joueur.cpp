@@ -4,12 +4,13 @@
 
 Joueur::Joueur()
     : m_caseActuelle(0u), m_pileDestinations(), m_profondeurPile(0u),
-      m_couleur(Couleur::nd), m_nom(""), m_offset(0.f, 0.f),
+      m_couleur(Couleur::nd), m_nom(""), m_vitesse(0.05f), m_offset(0.f, 0.f),
       m_suivant(nullptr) {}
 
 Joueur::Joueur(const Couleur &couleur, const std::string &nom)
     : m_caseActuelle(0u), m_pileDestinations(), m_profondeurPile(0u),
-      m_couleur(couleur), m_nom(nom), m_offset(0.f, 0.f), m_suivant(nullptr) {
+      m_couleur(couleur), m_nom(nom), m_vitesse(0.05f), m_offset(0.f, 0.f),
+      m_suivant(nullptr) {
   chargerSprite();
   determinerOffset();
   placerDansCase(0);
@@ -23,6 +24,8 @@ void Joueur::placerDansCase(unsigned int numeroCase) {
   // on s'assure de ne pas dépasser le jeu
   if (numeroCase > 99u)
     numeroCase = 99u;
+  if (numeroCase < 0u)
+    numeroCase = 0;
 
   unsigned int x = NumeroCaseALigne(numeroCase);
   unsigned int y = NumeroCaseAColone(numeroCase);
@@ -67,6 +70,8 @@ bool Joueur::update() {
   sf::Vector2f positionActuelle;
   sf::Vector2f destination;
 
+  static sf::Vector2f distance;
+
   positionActuelle.x = m_sprite.getGlobalBounds().left;
   positionActuelle.y = m_sprite.getGlobalBounds().top;
 
@@ -78,21 +83,27 @@ bool Joueur::update() {
        HAUTEUR_CASE) +
       m_offset.y;
 
-  if (destination.x < positionActuelle.x) {
-    positionActuelle.x -= 2.f;
-  } else if (destination.x > positionActuelle.x) {
-    positionActuelle.x += 2.f;
-  }
+  if (distance == sf::Vector2f(0.f, 0.f)) // si la distance a été réinitialisée
+    distance = destination - positionActuelle;
 
-  if (destination.y < positionActuelle.y) {
-    positionActuelle.y -= 2.f;
-  } else if (destination.y > positionActuelle.y) {
-    positionActuelle.y += 2.f;
-  }
+  positionActuelle += distance * m_vitesse;
+
+  // if (destination.x < positionActuelle.x) {
+  //  positionActuelle.x -= 2.f;
+  //} else if (destination.x > positionActuelle.x) {
+  //  positionActuelle.x += 2.f;
+  //}
+
+  // if (destination.y < positionActuelle.y) {
+  //  positionActuelle.y -= 2.f;
+  //} else if (destination.y > positionActuelle.y) {
+  //  positionActuelle.y += 2.f;
+  //}
 
   m_sprite.setPosition(positionActuelle);
 
   if (destination == positionActuelle) {
+    distance = sf::Vector2f(0.f, 0.f); // reinitialiser la distance
     m_profondeurPile--;
     m_caseActuelle = m_pileDestinations[m_profondeurPile];
   }

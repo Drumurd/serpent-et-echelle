@@ -40,7 +40,7 @@ void De::chargerTextures() {
 #ifdef _WIN32 // windows
     path = "assets\\textures\\" + std::to_string(i + 1) + ".jpg";
 #else // linux, mac, unix, etc...
-    path = "assets/textures/" + std::to_string(i + 1) + ".jpg ";
+    path = "assets/textures/" + std::to_string(i + 1) + ".jpg";
 #endif
 
     if (!m_textures[i].loadFromFile(path)) {

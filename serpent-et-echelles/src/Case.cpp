@@ -1,4 +1,4 @@
-#pragma once
+#include "Case.hpp"
 
 unsigned int NumeroCaseAColone(const unsigned int &numeroCase) {
   // on arrondit à la dixaine la plus basse

@@ -14,9 +14,9 @@
 #include "Chemin.hpp"
 #include "Liste_Chemin.hpp"
 
+#include "Case.hpp"
 #include "Couleur.hpp"
 #include "De.hpp"
-#include "case.hpp"
 
 class Jeu {
 public:

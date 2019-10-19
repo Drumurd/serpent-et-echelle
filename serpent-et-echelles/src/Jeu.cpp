@@ -284,6 +284,8 @@ void Jeu::jouerTour(Joueur *joueur) {
   unsigned int resultatDe = m_de.obtenirResultat();
 
   unsigned int emplacement = joueur->obtenirCaseCourante() + resultatDe;
+  if (emplacement > 99)
+    emplacement = 99;
 
   Chemin *chemin = m_chemins.chercherBas(emplacement);
 
@@ -318,7 +320,7 @@ void Jeu::update() {
   switch (m_etat) {
 
   case Jeu::Etat::brassageDe:
-    if (m_de.update()) {
+    if (m_de.update()) { // l'animation du dé est terminée
       jouerTour(m_joueurCourant);
       m_etat = Etat::mouvementJoueur;
     }
