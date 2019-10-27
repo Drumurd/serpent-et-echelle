@@ -18,6 +18,7 @@ void Liste_Chemin::ajouter(Chemin *chemin) {
   chemin->determinerSuivant(m_premier);
   m_premier = chemin;
 }
+
 void Liste_Chemin::liberer() {
   Chemin *courant = m_premier;
   while (courant != nullptr) {

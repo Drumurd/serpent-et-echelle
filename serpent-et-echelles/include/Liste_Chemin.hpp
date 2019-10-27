@@ -1,7 +1,12 @@
 #pragma once
 
-#include "Chemin.hpp"
+#define MAX_CHEMIN 6
+#define MIN_CHEMIN 3
+
 #include <SFML/Graphics.hpp>
+#include <random>
+
+#include "Chemin.hpp"
 
 class Liste_Chemin {
 
@@ -10,6 +15,7 @@ public:
   ~Liste_Chemin();
 
   void afficher(sf::RenderWindow *window);
+
   void ajouter(Chemin *chemin);
   void liberer();
 

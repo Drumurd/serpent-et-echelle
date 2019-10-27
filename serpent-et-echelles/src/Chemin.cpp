@@ -3,7 +3,8 @@
 /////////////////////////////////////////////////////// public
 
 Chemin::Chemin()
-    : m_caseBas(0), m_caseHaut(0), m_type(Type::serpent), m_suivant(nullptr) {}
+    : m_caseBas(0u), m_caseHaut(0u), m_type(Type::serpent), m_suivant(nullptr) {
+}
 
 Chemin::Chemin(unsigned int caseHaut, unsigned int caseBas, Type type)
     : m_caseBas(caseBas), m_caseHaut(caseHaut), m_offset(40.f, 40.f),

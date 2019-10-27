@@ -1,12 +1,10 @@
 #pragma once
 
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
 #include <string>
-
-#include <ctime>
-#include <random>
 
 #include "Joueur.hpp"
 #include "Liste_Joueur.hpp"
@@ -32,10 +30,10 @@ private:
   sf::Event m_event;
 
   Case m_plancheDeJeu[10][10];
-  sf::Texture *m_textureCase;
-  sf::Texture *m_textureCaseSpeciale;
+  sf::Texture m_textureCase;
+  sf::Texture m_textureCaseSpeciale;
 
-  sf::Font *m_textFont;
+  sf::Font m_textFont;
   sf::Text m_message1;
   sf::Text m_message2;
 
@@ -46,6 +44,11 @@ private:
 
   Etat m_etat;
   Joueur *m_joueurCourant;
+
+  sf::SoundBuffer m_bufferSonSerpent;
+  sf::SoundBuffer m_bufferSonEchelle;
+  sf::Sound m_sonSerpent;
+  sf::Sound m_sonEchelle;
 
   unsigned int m_nbJoueurs;
 
@@ -62,6 +65,7 @@ private:
 
   void chargerMessages();
   void chargerCheminsStatiques();
+  void chargerSons();
 
   void bouclePrincipale();
 
@@ -74,8 +78,8 @@ private:
 
   void afficherMessage();
 
-  void jouerTour(Joueur *joueur);
-  void effectuerDeplacements(Joueur *joueur, const unsigned int resultatDe);
+  void jouerTour();
+  bool verifierChemins();
 
   void update();
   void updateMessages();

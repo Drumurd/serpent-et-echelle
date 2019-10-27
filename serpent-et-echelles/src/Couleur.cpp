@@ -22,17 +22,17 @@ Couleur intACouleur(unsigned int noCouleur) {
 sf::Color couleurASfColor(const Couleur &couleur) {
   switch (couleur) {
   case Couleur::bleu:
-    return sf::Color(0u, 0u, 255u, 255u);
+    return sf::Color(0, 0, 255, 255);
   case Couleur::jaune:
-    return sf::Color(255u, 255u, 0u, 255u);
+    return sf::Color(255, 255, 0, 255);
   case Couleur::orange:
-    return sf::Color(255u, 128u, 0u, 255u);
+    return sf::Color(255, 125, 0, 255);
   case Couleur::rose:
-    return sf::Color(255u, 0u, 255u, 255u);
+    return sf::Color(255, 0, 255, 255);
   case Couleur::rouge:
-    return sf::Color(255u, 0u, 0u, 255u);
+    return sf::Color(255, 0, 0, 255);
   case Couleur::vert:
-    return sf::Color(0u, 255u, 0u, 255u);
+    return sf::Color(0, 255, 0, 255);
   default:
     return sf::Color();
   }

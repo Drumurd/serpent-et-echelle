@@ -1,5 +1,7 @@
 #pragma once
 
+#define VITESSE_JOUEUR 0.05f
+
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <string>
@@ -40,7 +42,6 @@ private:
 
   Couleur m_couleur;
   std::string m_nom;
-  float m_vitesse;
 
   sf::Texture m_texture;
   sf::Sprite m_sprite;

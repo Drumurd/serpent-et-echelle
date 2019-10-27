@@ -14,7 +14,7 @@ SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 INCLUDE := $(shell find $(INCDIR) -type f -name *.$(INCEXT))
 CFLAGS := -g -Wall
-LIB := -lsfml-graphics -lsfml-window -lsfml-system
+LIB := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 INC := -I $(INCDIR)
 
 $(TARGET): $(OBJECTS)

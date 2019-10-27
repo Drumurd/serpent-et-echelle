@@ -4,16 +4,14 @@
 
 Joueur::Joueur()
     : m_caseActuelle(0u), m_pileDestinations(), m_profondeurPile(0u),
-      m_couleur(Couleur::nd), m_nom(""), m_vitesse(0.05f), m_offset(0.f, 0.f),
-      m_suivant(nullptr) {}
+      m_couleur(Couleur::nd), m_nom(), m_offset(0.f, 0.f), m_suivant(nullptr) {}
 
 Joueur::Joueur(const Couleur &couleur, const std::string &nom)
     : m_caseActuelle(0u), m_pileDestinations(), m_profondeurPile(0u),
-      m_couleur(couleur), m_nom(nom), m_vitesse(0.05f), m_offset(0.f, 0.f),
-      m_suivant(nullptr) {
+      m_couleur(couleur), m_nom(nom), m_offset(0.f, 0.f), m_suivant(nullptr) {
   chargerSprite();
   determinerOffset();
-  placerDansCase(0);
+  placerDansCase(0u);
 }
 
 Joueur::~Joueur() {}
@@ -25,7 +23,7 @@ void Joueur::placerDansCase(unsigned int numeroCase) {
   if (numeroCase > 99u)
     numeroCase = 99u;
   if (numeroCase < 0u)
-    numeroCase = 0;
+    numeroCase = 0u;
 
   unsigned int x = NumeroCaseALigne(numeroCase);
   unsigned int y = NumeroCaseAColone(numeroCase);
@@ -52,7 +50,7 @@ std::string Joueur::obtenirNom() const { return m_nom; }
 unsigned int Joueur::obtenirCaseCourante() const { return m_caseActuelle; }
 
 void Joueur::ajouterDestination(const unsigned int noCase) {
-  if (m_profondeurPile == 7) {
+  if (m_profondeurPile == 7u) {
     throw std::runtime_error("Buffer overflow");
   }
   m_pileDestinations[m_profondeurPile] = noCase;
@@ -63,7 +61,7 @@ void Joueur::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 
 // retourne true si l'animation est terminée
 bool Joueur::update() {
-  if (m_profondeurPile == 0) {
+  if (m_profondeurPile == 0u) {
     return true;
   }
 
@@ -86,19 +84,7 @@ bool Joueur::update() {
   if (distance == sf::Vector2f(0.f, 0.f)) // si la distance a été réinitialisée
     distance = destination - positionActuelle;
 
-  positionActuelle += distance * m_vitesse;
-
-  // if (destination.x < positionActuelle.x) {
-  //  positionActuelle.x -= 2.f;
-  //} else if (destination.x > positionActuelle.x) {
-  //  positionActuelle.x += 2.f;
-  //}
-
-  // if (destination.y < positionActuelle.y) {
-  //  positionActuelle.y -= 2.f;
-  //} else if (destination.y > positionActuelle.y) {
-  //  positionActuelle.y += 2.f;
-  //}
+  positionActuelle += distance * VITESSE_JOUEUR;
 
   m_sprite.setPosition(positionActuelle);
 

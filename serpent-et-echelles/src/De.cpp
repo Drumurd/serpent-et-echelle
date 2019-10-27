@@ -4,7 +4,7 @@
 
 De::De() {
   m_randomEngine = std::mt19937(m_randomDevice());
-  m_distribution = std::uniform_int_distribution<>(1u, 6u);
+  m_distribution = std::uniform_int_distribution<>(1, 6);
 
   chargerTextures();
   initialiserSprite();
@@ -18,7 +18,7 @@ void De::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 bool De::update() {
   static unsigned int fois = 0u;
 
-  if (fois % 5 == 0)
+  if (fois % 5u == 0u)
     brasser();
   fois++;
 
