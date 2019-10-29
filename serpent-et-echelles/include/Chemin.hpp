@@ -6,8 +6,11 @@
 
 #include "Case.hpp"
 
-#define LONGEUR_SERPENT 1513.0f
-#define LONGEUR_ECHELLE 418.0f
+#define LONGEUR_SERPENT 1513.f
+#define LARGEUR_SERPENT 208.f
+
+#define LONGEUR_ECHELLE 418.f
+#define LARGEUR_ECHELLE 134.f
 
 class Chemin {
 public:
@@ -29,6 +32,7 @@ public:
   void afficher(sf::RenderWindow *window);
   void placerSurCases();
 
+  void calculerOrigine(sf::Vector2f &origine);
   void calculerPosition(sf::Vector2f &positionHaut, sf::Vector2f &positionBas);
   float calculerRotation(const sf::Vector2f &positionHaut,
                          const sf::Vector2f &positionBas, float &c);

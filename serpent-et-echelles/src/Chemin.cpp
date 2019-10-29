@@ -29,18 +29,32 @@ void Chemin::afficher(sf::RenderWindow *window) { window->draw(m_sprite); }
 void Chemin::placerSurCases() {
   sf::Vector2f positionHaut;
   sf::Vector2f positionBas;
+  sf::Vector2f origine;
 
   float c, rotation;
 
   sf::Vector2f scale;
 
+  calculerOrigine(origine);
   calculerPosition(positionHaut, positionBas);
   rotation = calculerRotation(positionHaut, positionBas, c);
   scale = calculerScale(c, rotation);
 
+  m_sprite.setOrigin(origine);
   m_sprite.setRotation(rotation);
   m_sprite.setPosition(positionHaut);
   m_sprite.setScale(scale);
+}
+
+void Chemin::calculerOrigine(sf::Vector2f &origine) {
+  switch (m_type) {
+  case Chemin::Type::serpent:
+    origine.x = LARGEUR_SERPENT / 2;
+    break;
+  case Chemin::Type::echelle:
+    origine.x = LARGEUR_ECHELLE / 2;
+    break;
+  }
 }
 
 void Chemin::calculerPosition(sf::Vector2f &positionHaut,
